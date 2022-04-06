@@ -1,4 +1,4 @@
-from click import secho, option, group, Choice
+from click import secho, option, group, Choice, launch
 from quiz.admin import *
 from quiz.settings import settings_area
 from main import *
@@ -17,7 +17,7 @@ def view(repolink, creator):
 		secho('View on browser? (y/n)', fg=yellow)
 		view = input().lower()
 		if view == 'y':
-			open_new_tab('https://github.com/clark-john/pyquizgame/')
+			launch('https://github.com/clark-john/pyquizgame/')
 		else:
 			secho('Exiting...')
 			exit()
@@ -26,7 +26,7 @@ def view(repolink, creator):
 		secho('View on browser? (y/n)', fg=yellow)
 		view = input().lower()
 		if view == 'y':
-			open_new_tab('https://github.com/clark-john/')
+			launch('https://github.com/clark-john/')
 		else:
 			secho('Exiting...')
 			exit()

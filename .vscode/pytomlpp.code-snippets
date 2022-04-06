@@ -1,0 +1,19 @@
+{
+  "toml config": {
+    "scope": "python",
+    "prefix": "config",
+    "body": [
+      "config['Quiz']['$1'] = True",
+      "dump(config, 'settings.toml', 'w')"
+    ],
+    "description": "Dump in pytomlpp"
+  },
+  "toml load": {
+    "scope": "python",
+    "prefix": "loadset",
+    "body": [
+      "$1 = load('settings.toml', 'w')"
+    ],
+    "description": ""
+  }
+}

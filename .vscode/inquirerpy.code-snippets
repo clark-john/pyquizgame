@@ -1,0 +1,12 @@
+{
+  "rawlist": {
+    "scope": "python",
+    "prefix": "rawlist",
+    "body": [
+      "'type': 'rawlist',",
+      "'message': 'Choose section:',",
+      "'choices': ['true', 'false']"
+    ],
+    "description": "InquirerPy Rawlist Type"
+  }
+}

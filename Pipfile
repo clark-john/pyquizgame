@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+click = "*"
+inquirerpy = "*"
+cryptography = "*"
+pytomlpp = "*"
+colorama = "*"
+
+[scripts]
+py = "python3.10"
+pkgls = "python3.10 -m pip freeze"
+lint = "pyflakes ."
+
+[dev-packages]
+pyflakes = "*"
+
+[requires]
+python_version = "3.10"

@@ -1,0 +1,11 @@
+{
+	"if name equals main": {
+		"scope": "python",
+		"prefix": "__name",
+		"body": [
+			"if __name__ == '__main__':",
+			"\tpass$1"
+		],
+		"description": ""
+	}
+}

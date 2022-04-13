@@ -2,7 +2,6 @@ from click import secho, option, group, Choice, launch
 from quiz.admin import *
 from quiz.settings import settings_area
 from main import *
-from webbrowser import open_new_tab
 from pytomlpp import dump, load
 
 @group()

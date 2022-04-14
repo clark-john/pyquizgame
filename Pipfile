@@ -9,6 +9,7 @@ inquirerpy = "*"
 cryptography = "*"
 pytomlpp = "*"
 colorama = "*"
+arrow = "*"
 
 [scripts]
 py = "python3.10"

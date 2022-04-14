@@ -3,6 +3,7 @@ from click import secho
 from db import Database
 from time import sleep
 from pytomlpp import load
+from arrow import utcnow 
 
 settings = load('settings.toml', 'r')
 
@@ -38,6 +39,7 @@ def main_quiz():
 
   secho('Let\'s start.')
 
+  # Setting
   get_hard_mode_setting = settings['Quiz']['hard_mode']
   get_no_colors_setting = settings['Quiz']['no_colors']
   get_no_scoreboard_setting = settings['Quiz']['no_scoreboard']
@@ -48,6 +50,9 @@ def main_quiz():
     pass
 
   score = 0
+
+  date = utcnow().to('Asia/Manila')
+
   while True:
     if questions_length > 2:
       random_choice = choice(ids_list)
@@ -59,6 +64,7 @@ def main_quiz():
       def empty_list_condition():
         if ids_list == []:
           secho('Thanks for playing', fg=success)
+          secho('As of '+ date.format('MMMM D, YYYY h:mm A'), fg=success)
           if get_no_scoreboard_setting:
             pass
           else:
@@ -66,7 +72,9 @@ def main_quiz():
           exit()
         else:
           pass
+
       answer = input()
+
       if answer == a:
         secho('correct',fg=success)
         ids_list.pop(ids_list.index(random_choice))

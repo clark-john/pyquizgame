@@ -22,30 +22,30 @@ Quiz_options = {
   'choices': ['hard_mode','no_colors','no_scoreboard']
 }
 
-hard_mode = {
+boolean_choices = {
   'type': 'rawlist',
   'message': 'Choose value:',
   'choices': ['true', 'false']
 }
 
-no_colors = {
-  'type': 'rawlist',
-  'message': 'Choose value:',
-  'choices': ['true', 'false']  
-}
+# no_colors = {
+#   'type': 'rawlist',
+#   'message': 'Choose value:',
+#   'choices': ['true', 'false']  
+# }
 
-no_scoreboard ={
-  'type': 'rawlist',
-  'message': 'Choose value:',
-  'choices': ['true', 'false']
-}
+# no_scoreboard ={
+#   'type': 'rawlist',
+#   'message': 'Choose value:',
+#   'choices': ['true', 'false']
+# }
 
 def settings_area():
   section = prompt(sections)
   if section[0] == 'Quiz':
     option = prompt(Quiz_options)
     if option[0] == 'hard_mode':
-      hard_mode_bool = prompt(hard_mode)
+      hard_mode_bool = prompt(boolean_choices)
       if hard_mode_bool[0] == 'true':
         config['Quiz']['hard_mode'] = True
         dump(config, 'settings.toml', 'w')
@@ -53,7 +53,7 @@ def settings_area():
         config['Quiz']['hard_mode'] = False
         dump(config, 'settings.toml', 'w')
     elif option[0] == 'no_colors':
-      no_colors_bool = prompt(no_colors)
+      no_colors_bool = prompt(boolean_choices)
       if no_colors_bool[0] == 'true':
         config['Quiz']['no_colors'] = True
         dump(config, 'settings.toml', 'w')
@@ -61,7 +61,7 @@ def settings_area():
         config['Quiz']['no_colors'] = False
         dump(config, 'settings.toml', 'w')
     elif option[0] == 'no_colors':
-      no_scoreboard_bool = prompt(no_scoreboard)
+      no_scoreboard_bool = prompt(boolean_choices)
       if no_scoreboard_bool[0] == 'true':
         config['Quiz']['no_scoreboard'] = True
         dump(config, 'settings.toml', 'w')

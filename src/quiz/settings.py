@@ -28,18 +28,6 @@ boolean_choices = {
   'choices': ['true', 'false']
 }
 
-# no_colors = {
-#   'type': 'rawlist',
-#   'message': 'Choose value:',
-#   'choices': ['true', 'false']  
-# }
-
-# no_scoreboard ={
-#   'type': 'rawlist',
-#   'message': 'Choose value:',
-#   'choices': ['true', 'false']
-# }
-
 def settings_area():
   section = prompt(sections)
   if section[0] == 'Quiz':

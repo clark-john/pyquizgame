@@ -19,9 +19,11 @@ def main_quiz():
   dat = Database()
   cur = dat.db.cursor()
   fetch_id = 'select id from questions'
-  questions = cur.execute('select question from questions;').fetchall()
+  cur.execute('select question from questions;')
+  questions = cur.fetchall()
   questions_length = len(questions)
-  ids = cur.execute(fetch_id).fetchall()
+  cur.execute(fetch_id)
+  ids = cur.fetchall()
 
   if questions_length == 0:
     secho('You don\'t have any questions yet.\nCreate some with \"python quiz.py admin --create-question\"', fg=warn)
@@ -35,7 +37,7 @@ def main_quiz():
     ids_list.append(x[0])
     pass
 
-  query = 'select question, answer from questions where id = ?'
+  query = 'select question, answer from questions where id = %s'
 
   secho('Let\'s start.')
 
@@ -56,7 +58,8 @@ def main_quiz():
   while True:
     if questions_length > 2:
       random_choice = choice(ids_list)
-      qna = cur.execute(query, (random_choice,)).fetchone()
+      cur.execute(query, (random_choice,))
+      qna = cur.fetchone()
       q = qna[0]
       a = qna[1]
       sleep(0.5)

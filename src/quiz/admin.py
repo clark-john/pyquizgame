@@ -25,10 +25,10 @@ coloramaCritical = Fore.RED
 coloramaWarn = Fore.YELLOW
 
 # crud sql statements
-create = 'insert into questions (question, answer) values (?, ?);'
+create = 'insert into questions (question, answer) values (%s, %s);'
 read = 'select question, answer from questions;'
-update = 'update questions set question = ?, answer = ? where id = ?'
-delete = 'delete from questions where id = ?'
+update = 'update questions set question = %s, answer = %s where id = %s'
+delete = 'delete from questions where id = %s'
 
 # colors initialization (it depends on any platform)
 if platform == 'win32':
@@ -65,8 +65,7 @@ def create_password():
 			else:
 				new = f.encrypt(new.encode())
 				new_password = new.decode()
-				cur.execute('insert into quizadmin (pw, role) values (?, \'admin\')', (new_password,))
-				dat.db.commit()
+				cur.execute('insert into quizadmin (pw, role) values (%s, \'admin\')', (new_password,))				
 				dat.db.close()
 				secho('Password created successfully.', fg=success)
 				exit()
@@ -88,7 +87,6 @@ def reset_password():
 				new = f.encrypt(new.encode())
 				new_password = new.decode()
 				cur.execute('update quizadmin set pw = ? where role = \'admin\'',(new_password,))
-				dat.db.commit()
 				dat.db.close()
 				secho('Password reset successfully.', fg=success)
 				break
@@ -128,7 +126,8 @@ def confirmation_of_deleting_all_questions():
 # startup
 def password_start():
 	cur = dat.db.cursor()
-	password_check = cur.execute('select pw from quizadmin').fetchone()
+	cur.execute('select pw from quizadmin')
+	password_check = cur.fetchone()
 	if password_check == None:
 		create_password()
 	else:
@@ -183,7 +182,7 @@ def	add_question(password_needed):
 	else:
 		secho('Question created successfully.', fg=success)
 		cur.execute(create, (q, a))
-		dat.db.commit()
+		cur.close()
 		dat.db.close()
 
 # read/view
@@ -193,7 +192,8 @@ def view_questions(password_needed):
 	else:
 		password_start()
 	cur = dat.db.cursor()
-	questions = cur.execute(read).fetchall()
+	cur.execute(read)
+	questions = cur.fetchall()
 	for x in questions:
 		y, z = x
 		print(y+"\n\tAnswer:".expandtabs(2),z)
@@ -206,8 +206,10 @@ def edit_question(password_needed):
 	else:
 		password_start()
 	cur = dat.db.cursor()
-	questions = cur.execute('select question, answer from questions;').fetchall()
-	id = cur.execute('select id from questions').fetchall()
+	cur.execute('select question, answer from questions;')
+	questions = cur.fetchall()
+	cur.execute('select id from questions')
+	id = 	cur.fetchall()
 	questions_length = len(questions)
 	for x, u in zip(questions, range(questions_length)):
 		for w in id[u]:
@@ -230,7 +232,8 @@ def edit_question(password_needed):
 		secho('Invalid value.',fg=critical)
 		exit()
 	
-	question_selection = cur.execute('select question from questions where id=?', (choose_question_to_update,)).fetchone()[0]
+	cur.execute('select question from questions where id=%s', (choose_question_to_update,))
+	question_selection = cur.fetchone()[0]
 	secho('Updating this question: '+question_selection)
 
 	q = input('Type your new question: ')
@@ -252,7 +255,7 @@ def edit_question(password_needed):
 	else:
 		secho('Question updated successfully.', fg=success)
 		cur.execute(update, (q, a, choose_question_to_update))
-		dat.db.commit()
+		cur.close()
 		dat.db.close()
 
 # remove/delete
@@ -262,8 +265,10 @@ def remove_question(password_needed):
 	else:
 		password_start()
 	cur = dat.db.cursor()
-	questions = cur.execute('select question, answer from questions;').fetchall()
-	id = cur.execute('select id from questions').fetchall()
+	cur.execute('select question, answer from questions;')
+	questions = cur.fetchall()
+	cur.execute('select id from questions')
+	id = cur.fetchall()
 	questions_length = len(questions)
 	for x, u in zip(questions, range(questions_length)):
 		for w in id[u]:
@@ -287,14 +292,15 @@ def remove_question(password_needed):
 		secho('Invalid value.',fg=critical)
 		exit()
 		
-	question_selection = cur.execute('select question from questions where id=?', (choose_question_to_delete,)).fetchone()[0]
+	cur.execute('select question from questions where id=%s', (choose_question_to_delete,))
+	question_selection = cur.fetchone()[0]
 	secho('Deleting this question: '+question_selection)
 	
 	conf = confirm('Are you sure?')
 	if conf:
 		cur.execute(delete, (choose_question_to_delete,))
 		secho('Question deleted successfully', fg=success)
-		dat.db.commit()
+		cur.close()
 		dat.db.close()
 	else:
 		secho('Exiting...')
@@ -359,7 +365,6 @@ def delete_all_questions():
 				continue
 			else:
 				cur.execute('drop table questions')
-				dat.db.commit()
 				dat.db.close()
 				secho('Questions delete successfully.', fg=success)
 		else:

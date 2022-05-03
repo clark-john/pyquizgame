@@ -1,6 +1,6 @@
 {
   "dbname": "pyquizgame",
   "user": "clarkpsql",
-  "port": 2345,
+  "port": 5432,
   "password": "gAAAAABiY2UpEh5HPAXW1JgrN0b-iaGBjt4wF2KN7dAlGhq4IdFXcCQ_l-3pIjnOhtUk0bCfI2Qx7iJMsUlteYkQHtjRZJYYCg=="
 }

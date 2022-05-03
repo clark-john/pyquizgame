@@ -1,6 +1,7 @@
 # Folders:
 *__pycache__
 test
+.idea
 
 # File types:
 *.db

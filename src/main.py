@@ -17,11 +17,13 @@ def main_quiz():
   secho('Fetching questions...')
 
   dat = Database()
-  cur = dat.db.cursor()
+  cur = dat.db.cursor(buffered=True)
   fetch_id = 'select id from questions'
-  questions = cur.execute('select question from questions;').fetchall()
+  cur.execute('select question from questions;')
+  questions = cur.fetchall()
   questions_length = len(questions)
-  ids = cur.execute(fetch_id).fetchall()
+  cur.execute(fetch_id)
+  ids = cur.fetchall()
 
   if questions_length == 0:
     secho('You don\'t have any questions yet.\nCreate some with \"python quiz.py admin --create-question\"', fg=warn)

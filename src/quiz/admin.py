@@ -9,9 +9,6 @@ from db import Database
 from traceback import print_exception
 from InquirerPy import prompt
 
-# database class
-dat = Database()
-
 # Secho color variables
 success = 'bright_green'
 critical = 'red'
@@ -51,7 +48,8 @@ else:
 
 # create password if pw is null
 def create_password():
-	cur = dat.db.cursor()
+	dat = Database()
+	cur = dat.db.cursor(buffered=True)
 	pw_pattern = compile('^[\w]{8,}')
 	while True:
 		secho('Password should contain equal or more than 8 characters.', fg='yellow', bold=True)
@@ -66,14 +64,15 @@ def create_password():
 				new = f.encrypt(new.encode())
 				new_password = new.decode()
 				cur.execute('insert into quizadmin (pw, role) values (?, \'admin\')', (new_password,))
-				dat.db.commit()
+				cur.close()
 				dat.db.close()
 				secho('Password created successfully.', fg=success)
 				exit()
 
 # reset
 def reset_password():
-	cur = dat.db.cursor()
+	dat = Database()
+	cur = dat.db.cursor(buffered=True)
 	pw_pattern = compile('^[\w]{8,}')
 	while True:
 		secho('Password should contain equal or more than 8 characters.', fg='yellow', bold=True)
@@ -88,15 +87,17 @@ def reset_password():
 				new = f.encrypt(new.encode())
 				new_password = new.decode()
 				cur.execute('update quizadmin set pw = ? where role = \'admin\'',(new_password,))
-				dat.db.commit()
+				cur.close()
 				dat.db.close()
 				secho('Password reset successfully.', fg=success)
 				break
 
 # if dangerous zone is entered
 def dangerous_zone():
-	cur = dat.db.cursor()
-	password_check = cur.execute('select pw from quizadmin').fetchone()
+	dat = Database()
+	cur = dat.db.cursor(buffered=True)
+	cur.execute('select pw from quizadmin')
+	password_check = cur.fetchone()
 	if password_check == None:
 		create_password()
 	else:
@@ -127,8 +128,10 @@ def confirmation_of_deleting_all_questions():
  
 # startup
 def password_start():
-	cur = dat.db.cursor()
-	password_check = cur.execute('select pw from quizadmin').fetchone()
+	dat = Database()
+	cur = dat.db.cursor(buffered=True)
+	cur.execute('select pw from quizadmin')
+	password_check = cur.fetchone()
 	if password_check == None:
 		create_password()
 	else:
@@ -156,12 +159,13 @@ def password_start():
 
 # create/add
 def	add_question(password_needed):
+	dat = Database()
 	if password_needed == False:
 		pass
 	else:
 		password_start()
 	question_pattern = compile('^[\w\s]*\?$')
-	cur = dat.db.cursor()
+	cur = dat.db.cursor(buffered=True)
 	secho('Creating question', fg=success, bold=True)
 
 	q = input("Write your question: ")
@@ -183,29 +187,33 @@ def	add_question(password_needed):
 	else:
 		secho('Question created successfully.', fg=success)
 		cur.execute(create, (q, a))
-		dat.db.commit()
+		cur.close()
 		dat.db.close()
 
 # read/view
 def view_questions(password_needed):
+	dat = Database()
+	print(dat.key)
 	if password_needed == False:
 		pass
 	else:
 		password_start()
-	cur = dat.db.cursor()
+	cur = dat.db.cursor(buffered=True)
 	questions = cur.execute(read).fetchall()
 	for x in questions:
 		y, z = x
 		print(y+"\n\tAnswer:".expandtabs(2),z)
+	cur.close()
 	dat.db.close()
 
 # update/edit
 def edit_question(password_needed):
+	dat = Database()
 	if password_needed == False:
 		pass
 	else:
 		password_start()
-	cur = dat.db.cursor()
+	cur = dat.db.cursor(buffered=True)
 	questions = cur.execute('select question, answer from questions;').fetchall()
 	id = cur.execute('select id from questions').fetchall()
 	questions_length = len(questions)
@@ -252,16 +260,17 @@ def edit_question(password_needed):
 	else:
 		secho('Question updated successfully.', fg=success)
 		cur.execute(update, (q, a, choose_question_to_update))
-		dat.db.commit()
+		cur.close()
 		dat.db.close()
 
 # remove/delete
 def remove_question(password_needed):
+	dat = Database()
 	if password_needed == False:
 		pass
 	else:
 		password_start()
-	cur = dat.db.cursor()
+	cur = dat.db.cursor(buffered=True)
 	questions = cur.execute('select question, answer from questions;').fetchall()
 	id = cur.execute('select id from questions').fetchall()
 	questions_length = len(questions)
@@ -294,7 +303,7 @@ def remove_question(password_needed):
 	if conf:
 		cur.execute(delete, (choose_question_to_delete,))
 		secho('Question deleted successfully', fg=success)
-		dat.db.commit()
+		cur.close()
 		dat.db.close()
 	else:
 		secho('Exiting...')
@@ -333,7 +342,8 @@ danger_zone = {
 # Danger Zone
 
 def delete_all_questions():
-	cur = dat.db.cursor()
+	dat = Database()
+	cur = dat.db.cursor(buffered=True)
 	password_check = cur.execute('select pw from quizadmin').fetchone()
 	if password_check == None:
 		create_password()
@@ -359,7 +369,7 @@ def delete_all_questions():
 				continue
 			else:
 				cur.execute('drop table questions')
-				dat.db.commit()
+				cur.close()
 				dat.db.close()
 				secho('Questions delete successfully.', fg=success)
 		else:

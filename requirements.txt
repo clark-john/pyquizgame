@@ -4,3 +4,6 @@ cryptography >= 36.0.2
 pytomlpp >= 1.0.11
 colorama >= 0.4.4
 arrow >= 1.2.2
+mysql-connector-python
+
+# If you've installed MySQL connector for Python, you can comment this and install required modules in this file.

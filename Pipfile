@@ -4,12 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-click = "*"
-inquirerpy = "*"
-cryptography = "*"
-pytomlpp = "*"
-colorama = "*"
-arrow = "*"
+click = ">=8.1.2"
+inquirerpy = ">=0.3.3"
+cryptography = ">=36.0.2"
+pytomlpp = ">=1.0.11"
+colorama = ">=0.4.4"
+arrow = ">=1.2.2"
+mysql-connector-python = "*"
 
 [scripts]
 py = "python3.10"

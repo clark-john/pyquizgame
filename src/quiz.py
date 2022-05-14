@@ -31,10 +31,10 @@ def view(repolink, creator):
 			exit()
 
 @cli.command(short_help='Admin Area', help='Use this command to manage questions', no_args_is_help=True)
-@option('--create-question', is_flag=True, help='Create a question')
-@option('--read-questions', is_flag=True, help='View all questions')
-@option('--update-question', is_flag=True, help='Update a question')
-@option('--delete-question', is_flag=True, help='Delete a question')
+@option('--create-question','-c', is_flag=True, help='Create a question')
+@option('--read-questions','-v', is_flag=True, help='View all questions')
+@option('--update-question','-u', is_flag=True, help='Update a question')
+@option('--delete-question','-d', is_flag=True, help='Delete a question')
 @option('-r','--reset', is_flag=True, help='Reset password')
 @option('-m', '--main', is_flag=True, help='Actual admin area')
 def admin(

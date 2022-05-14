@@ -24,6 +24,10 @@ coloramaSuccess = Fore.GREEN
 coloramaCritical = Fore.RED 
 coloramaWarn = Fore.YELLOW
 
+# regex patterns
+pw_pattern = compile('^[\\w]{8,}')
+question_pattern = compile('^[\\w\\s]*\\?$')
+
 # crud sql statements
 create = 'insert into questions (question, answer) values (?, ?);'
 read = 'select question, answer from questions;'
@@ -52,7 +56,7 @@ else:
 # create password if pw is null
 def create_password():
 	cur = dat.db.cursor()
-	pw_pattern = compile('^[\w]{8,}')
+	
 	while True:
 		secho('Password should contain equal or more than 8 characters.', fg='yellow', bold=True)
 		new = getpass('Enter your new password: ')
@@ -74,7 +78,6 @@ def create_password():
 # reset
 def reset_password():
 	cur = dat.db.cursor()
-	pw_pattern = compile('^[\w]{8,}')
 	while True:
 		secho('Password should contain equal or more than 8 characters.', fg='yellow', bold=True)
 		new = getpass('Enter your new password: ')
@@ -160,7 +163,7 @@ def	add_question(password_needed):
 		pass
 	else:
 		password_start()
-	question_pattern = compile('^[\w\s]*\?$')
+	
 	cur = dat.db.cursor()
 	secho('Creating question', fg=success, bold=True)
 
@@ -245,8 +248,6 @@ def edit_question(password_needed):
 	else:
 		a = a
 
-	question_pattern = compile('^[\w\s]*\?$')
-	
 	if question_pattern.match(q) == None:
 		secho('Questions must end with a question mark.', fg='yellow')
 	else:
@@ -361,7 +362,7 @@ def delete_all_questions():
 				cur.execute('drop table questions')
 				dat.db.commit()
 				dat.db.close()
-				secho('Questions delete successfully.', fg=success)
+				secho('Questions deleted successfully.', fg=success)
 		else:
 			secho('Exiting...')
 

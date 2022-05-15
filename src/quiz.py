@@ -1,8 +1,16 @@
 from click import secho, option, group, Choice, launch
-from quiz.admin import *
-from quiz.settings import settings_area
+from utils.settings import settings_area
 from main import *
 from pytomlpp import dump, load
+from utils.constants import *
+from utils.admin import admin_area
+
+from utils.crud.create import create
+from utils.crud.read import read
+from utils.crud.update import update
+from utils.crud.delete import delete
+
+from utils.crud.reset_pw import reset_password
 
 @group()
 def cli():
@@ -38,21 +46,22 @@ def view(repolink, creator):
 @option('-r','--reset', is_flag=True, help='Reset password')
 @option('-m', '--main', is_flag=True, help='Actual admin area')
 def admin(
-	read_questions, 
 	create_question, 
+	read_questions, 
 	update_question, 
 	delete_question, 
 	reset, 
 	main
 ):
+
 	if create_question:
-		add_question(1)
+		create(1)
 	elif read_questions:
-		view_questions(1)
+		read(1)
 	elif update_question:
-		edit_question(1)
+		update(1)
 	elif delete_question:
-		remove_question(1)
+		delete(1)
 	elif reset:
 		reset_password()
 	elif main:

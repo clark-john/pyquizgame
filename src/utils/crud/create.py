@@ -1,10 +1,11 @@
 from click import secho
 from utils.constants import success, b_red, question_pattern, warn, SQL
 from utils.crud.pw_start import password_start
+from db import Database
 
-def	create(password_needed, db):
+def	create(password_needed):
 	# db should be Database()
-	dat = db
+	dat = Database()
 	if password_needed == False:
 		pass
 	else:

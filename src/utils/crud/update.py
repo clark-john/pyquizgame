@@ -12,7 +12,7 @@ def update(password_needed):
 	if password_needed == False:
 		pass
 	else:
-		password_start()
+		password_start(password_needed)
 	cur = dat.db.cursor()
 	questions = cur.execute('select question, answer from questions;').fetchall()
 	id = cur.execute('select id from questions').fetchall()

@@ -4,8 +4,9 @@ from db import Database
 from time import sleep
 from pytomlpp import load
 from arrow import utcnow 
+from utils.constants import settings_file
 
-settings = load('settings.toml', 'r')
+settings = load(settings_file, 'r')
 
 def main_quiz():
   # Click's secho Variables

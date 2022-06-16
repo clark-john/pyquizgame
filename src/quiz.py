@@ -2,6 +2,7 @@ from click import secho, option, group, Choice, launch
 from utils.settings import settings_area
 from main import *
 from pytomlpp import dump, load
+
 from utils.constants import *
 from utils.admin import admin_area
 
@@ -53,7 +54,6 @@ def admin(
 	reset, 
 	main
 ):
-
 	if create_question:
 		create(1)
 	elif read_questions:
@@ -68,8 +68,7 @@ def admin(
 		admin_area()
 
 # loading the settings.toml file
-
-config = load('settings.toml', 'r')
+config = load(settings_file, 'r')
 
 @cli.command(help='Configure pyquizgame',no_args_is_help=True)
 @option('-m','--main', help='Main settings area', is_flag=True)
@@ -82,29 +81,29 @@ def settings(hard_mode, no_colors, no_scoreboard, main):
 
 	elif hard_mode == 'true':
 		config['Quiz']['hard_mode'] = True
-		dump(config, 'settings.toml', 'w')
+		dump(config, settings_file, 'w')
 		secho('Hard mode set to True', fg=success)
 	elif hard_mode == 'false':
 		config['Quiz']['hard_mode'] = False
-		dump(config, 'settings.toml', 'w')
+		dump(config, settings_file, 'w')
 		secho('Hard mode set to False', fg=success)
 
 	elif no_colors == 'true':
 		config['Quiz']['no_colors'] = True
-		dump(config, 'settings.toml', 'w')
+		dump(config, settings_file, 'w')
 		secho('\'No colors\' set to True', fg=success)
 	elif no_colors == 'false':
 		config['Quiz']['no_colors'] = False
-		dump(config, 'settings.toml', 'w')
+		dump(config, settings_file, 'w')
 		secho('\'No colors\' set to False', fg=success)
 	
 	elif no_scoreboard == 'true':
 		config['Quiz']['no_scoreboard'] = True
-		dump(config, 'settings.toml', 'w')
+		dump(config, settings_file, 'w')
 		secho('\'No scoreboard\' set to True', fg=success)
 	elif no_scoreboard == 'false':
 		config['Quiz']['no_scoreboard'] = False
-		dump(config, 'settings.toml', 'w')
+		dump(config, settings_file, 'w')
 		secho('\'No scoreboard\' set to False', fg=success)
 
 @cli.command(help='Start a game')

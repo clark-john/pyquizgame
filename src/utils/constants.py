@@ -18,6 +18,9 @@ reset = Fore.RESET
 pw_pattern = compile('^[\\w]{8,}')
 question_pattern = compile('^[\\w\\s]*\\?$')
 
+# settings file from root dir
+settings_file = 'src/settings.toml'
+
 # crud sql statements
 class SQL:
 	create = 'insert into questions (question, answer) values (?, ?);'

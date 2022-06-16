@@ -12,6 +12,8 @@ Or alternatively you can install the required modules by running this command in
 ## How to play:
 
 In your terminal (at the same directory as the src folder):
-Type `python quiz.py start` to start the game.
+Choose any os-specific command below and type it to start the game.
+- Windows: `quiz start`
+- Bash: `./quiz start`
 
-Before you start the game type `python quiz.py admin --create-question` first to create some questions. You can make several questions no matter how many you want.
+Before you start the game type `quiz admin --create-question` first to create some questions. You can make several questions no matter how many you want.

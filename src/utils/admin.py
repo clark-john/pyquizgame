@@ -21,7 +21,7 @@ else:
 # Admin area
 
 def admin_area():
-	password_start()
+	password_start(1)
 	two_options_choice = prompt(Prompts.two_options)[0]
 	if two_options_choice == 'CRUD Operations (Manage questions)':
 		crud_choice = prompt(Prompts.crud_operations)
